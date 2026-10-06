@@ -11,7 +11,7 @@ Biolight, 12 LED'li bir NeoPixel halkayla gün ışığının ritmini ve gökyü
 
 Cihaz kendi web sunucusunu barındırır. Kurulum ve kontrol telefonun tarayıcısından yapılır; uygulama indirmek gerekmez.
 
-**[İnteraktif kullanım kılavuzunu aç](https://burapist97.github.io/biolight/)** · **[Teknik kılavuz (PDF)](docs/Biolight_Teknik_Kilavuz.pdf)**
+**[İnteraktif kullanım kılavuzunu aç](https://burapist97.github.io/Lava.-Biolight/)** · **[Teknik kılavuz (PDF)](docs/Biolight_Teknik_Kilavuz.pdf)**
 
 ---
 
