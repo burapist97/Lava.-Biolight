@@ -3,8 +3,8 @@
    BIOLIGHT — Sirkadiyen Aydınlatma
    Bir LAVA. ürünü
   ============================================================
-   Donanım : ESP32-C3 (veya ESP32) + WS2812 12'li halka
-             DI → GPIO2
+   Donanım : ESP32-C3 OLED veya ESP32-C3 Mini + WS2812B 12'li NeoPixel halka
+             ESP32-C3 OLED → DI GPIO2'ye,  ESP32-C3 Mini → DI GPIO3'e
    Kütüphaneler (Kütüphane Yöneticisi'nden):
      - ArduinoJson  (v7.x)
      - Adafruit NeoPixel
@@ -31,6 +31,8 @@
 #include "kurulum.h"
 
 // ---------------- DONANIM ----------------
+// Kartına göre seç: ESP32-C3 OLED için 2, ESP32-C3 Mini için 3.
+// Mini kartta GPIO2 kullanılırsa kart açılışta hataya girer.
 #define LED_PIN        2
 #define NUM_LEDS       12
 #define POWER_LIMIT_MA 600     // Halkanın çekebileceği en yüksek akım (USB için güvenli)
@@ -39,7 +41,8 @@
 #define PREVIEW_MS     45000UL // Efekt önizleme süresi
 
 // ---------------- API ----------------
-const char* OWM_API_KEY = "WRITE YOUR API KEY";
+// OpenWeather API anahtarını buraya yaz (openweathermap.org → hesabın → API keys)
+const char* OWM_API_KEY = "BURAYA_API_ANAHTARINI_YAZ";
 const unsigned long WEATHER_INTERVAL = 10UL * 60UL * 1000UL;
 const unsigned long WEATHER_RETRY    = 60UL * 1000UL;
 
@@ -552,6 +555,12 @@ String urlEncode(const char* s) {
 }
 
 void fetchWeather() {
+  if (!strlen(OWM_API_KEY) || !strncmp(OWM_API_KEY, "BURAYA", 6)) {
+    portENTER_CRITICAL(&wxMux); strlcpy(wxShared.err, "API anahtarı girilmemiş", sizeof wxShared.err); portEXIT_CRITICAL(&wxMux);
+    wxSeq++;
+    Serial.println("Hava hatası: OWM_API_KEY tanımlı değil.");
+    return;
+  }
   char city[48];
   portENTER_CRITICAL(&wxMux); strlcpy(city, cityShared, sizeof city); portEXIT_CRITICAL(&wxMux);
 
