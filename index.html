@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#120805">
+<title>Biolight kullanım kılavuzu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#f7f1e6;--bg2:#ffe3b3;--text:#2b1f13;--muted:#76604b;--accent:#ff8c00;--accent-text:#a84f00;--ink:#fff;
+  --tile:rgba(255,255,255,.62);--line:rgba(70,45,10,.14);--ringbg:#1a120d;--glow:255,170,90;--glow-a:.4;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#120805;--bg2:#2a1208;--text:#ecb88c;--muted:#9a7154;--accent:#ff8c00;--accent-text:#ffa040;--ink:#120805;--tile:rgba(255,200,160,.05);--line:rgba(255,200,160,.12)}
+}
+:root[data-theme="dark"]{--bg:#120805;--bg2:#2a1208;--text:#ecb88c;--muted:#9a7154;--accent:#ff8c00;--accent-text:#ffa040;--ink:#120805;--tile:rgba(255,200,160,.05);--line:rgba(255,200,160,.12)}
+html{scroll-padding-top:calc(72px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+body[data-phase=gece]{--bg:#120805;--bg2:#2a1208;--text:#ecb88c;--muted:#9a7154;--accent:#ff8c00;--accent-text:#ffa040;--ink:#120805;--tile:rgba(255,200,160,.05);--line:rgba(255,200,160,.12);color-scheme:dark}
+body[data-phase=safak]{--bg:#1c1222;--bg2:#4f2534;--text:#ffe6d4;--muted:#c99d8d;--accent:#ff9d66;--accent-text:#ffb488;--ink:#1c1222;--tile:rgba(255,225,205,.06);--line:rgba(255,225,205,.13);color-scheme:dark}
+body[data-phase=gun]{--bg:#f7f1e6;--bg2:#ffe3b3;--text:#2b1f13;--muted:#76604b;--accent:#ff8c00;--accent-text:#a84f00;--ink:#fff;--tile:rgba(255,255,255,.62);--line:rgba(70,45,10,.14);color-scheme:light}
+body[data-phase=alacakaranlik]{--bg:#1e0d09;--bg2:#5e200f;--text:#ffd9bd;--muted:#c08a72;--accent:#ff6a2a;--accent-text:#ff9a6a;--ink:#1e0d09;--tile:rgba(255,210,180,.05);--line:rgba(255,210,180,.12);color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:auto}
+body{background-color:var(--bg);color:var(--text);font:16px/1.6 "Manrope","Segoe UI",system-ui,sans-serif;transition:background-color 1.4s ease,color 1.4s ease;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+img,svg,canvas{max-width:100%}
+.sky{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(120% 70% at 75% -10%,var(--bg2),transparent 70%);opacity:.9;transition:opacity 1.4s}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 22px}
+
+/* Üst çubuk */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line);transition:background-color 1.4s}
+.top .wrap{display:flex;align-items:center;gap:18px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex:none}
+.brand b{letter-spacing:.32em;font-size:14px;font-weight:700}
+.nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{color:var(--muted);text-decoration:none;font-size:14px;padding:8px 11px;border-radius:999px;white-space:nowrap;transition:color .2s,background .2s}
+.nav a:hover{color:var(--text);background:var(--tile)}
+@media (max-width:760px){.nav{display:none}}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:center;min-height:calc(100vh - 64px);padding:48px 0 56px}
+.hero h1{font-size:clamp(38px,6vw,64px);line-height:1.04;font-weight:300;letter-spacing:-.025em;margin-bottom:20px;text-wrap:balance}
+.lede{font-size:18px;color:var(--muted);max-width:34em;margin-bottom:34px;text-wrap:pretty}
+.scrub{max-width:520px}
+.scrub-top{display:flex;align-items:baseline;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.time{font-size:44px;font-weight:200;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:.01em}
+.phase{font-weight:600;color:var(--accent-text);font-size:17px}
+.play{margin-left:auto;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--tile);border-radius:999px;padding:9px 16px 9px 12px;font-size:14px;font-weight:600}
+.play svg{flex:none}
+.track{position:relative;height:44px}
+.band{position:absolute;left:0;right:0;top:17px;height:10px;border-radius:5px;background:linear-gradient(90deg,#2a1007 0%,#2a1007 26.5%,#ffb27a 30.5%,#ffe2a8 34%,#fff1c8 50%,#ffe2a8 68%,#ff6a2a 76.5%,#2a1007 79.5%,#2a1007 100%);box-shadow:inset 0 0 0 1px var(--line)}
+.track input{position:absolute;inset:0;width:100%;height:44px;-webkit-appearance:none;appearance:none;background:transparent;cursor:grab}
+.track input::-webkit-slider-runnable-track{height:44px;background:transparent}
+.track input::-moz-range-track{height:44px;background:transparent}
+.track input::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;margin-top:7px;border-radius:50%;background:#ffb547;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--line),0 0 26px 6px rgba(255,170,60,.55)}
+.track input::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#ffb547;border:3px solid var(--bg);box-shadow:0 0 26px 6px rgba(255,170,60,.55)}
+.tlabels{position:relative;height:22px;font-size:12.5px;color:var(--muted);margin-top:4px}
+.tlabels span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.tlabels span:first-child{transform:none;left:0}
+.tlabels span:last-child{transform:none;right:0;left:auto}
+.note{font-size:13px;color:var(--muted);margin-top:12px}
+
+.hero-ring{position:relative;aspect-ratio:1;width:100%;max-width:470px;justify-self:center}
+.halo{position:absolute;inset:-14%;border-radius:50%;background:radial-gradient(circle,rgba(var(--glow),calc(var(--glow-a) * .55)) 0%,rgba(var(--glow),calc(var(--glow-a) * .18)) 38%,transparent 66%);pointer-events:none}
+canvas.ring{position:relative;display:block;width:100%;aspect-ratio:1}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr);min-height:0;padding-top:28px;gap:24px}.hero-ring{order:-1;max-width:340px}}
+
+/* Bölümler */
+.sec{padding:84px 0;border-top:1px solid var(--line)}
+.sec-head{max-width:640px;margin-bottom:38px}
+.sec h2{font-size:clamp(30px,4.2vw,44px);line-height:1.1;font-weight:300;letter-spacing:-.02em;margin-bottom:14px;text-wrap:balance}
+.sec-head p{color:var(--muted);font-size:17px;text-wrap:pretty}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:44px;align-items:start}
+@media (max-width:860px){.split{grid-template-columns:minmax(0,1fr)}}
+.stage{position:sticky;top:96px;border:1px solid var(--line);background:var(--tile);border-radius:28px;padding:26px;transition:background-color 1.4s,border-color 1.4s}
+.stage .ringbox{max-width:330px;margin:0 auto}
+.cap{text-align:center;margin-top:14px;min-height:3.2em;font-size:15.5px;color:var(--muted);text-wrap:balance}
+.cap b{color:var(--text);font-weight:600}
+@media (max-width:860px){.stage{position:relative;top:0}}
+
+/* Kurulum adımları */
+.steps{list-style:none;display:flex;flex-direction:column;gap:8px}
+.step{display:flex;gap:18px;width:100%;text-align:left;border:1px solid transparent;background:transparent;border-radius:18px;padding:16px 18px;transition:background .25s,border-color .25s}
+.step:hover{background:var(--tile)}
+.step.on{background:var(--tile);border-color:var(--accent)}
+.step .n{flex:none;width:30px;font-size:30px;line-height:1;font-weight:200;color:var(--accent-text)}
+.step b{display:block;font-weight:600;font-size:16.5px;margin-bottom:2px}
+.step span{color:var(--muted);font-size:15px}
+.stage-nav{display:flex;gap:8px;justify-content:center;margin-top:18px}
+.btn{border:none;background:var(--accent);color:var(--ink);font-weight:600;border-radius:14px;padding:12px 18px;font-size:15px;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text);font-weight:500}
+
+/* Işığın dili kartları */
+.signs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.sign{border:1px solid var(--line);background:var(--tile);border-radius:22px;padding:18px 16px 20px;text-align:center;transition:background-color 1.4s}
+.sign canvas{max-width:150px;margin:0 auto 12px}
+.sign b{display:block;font-weight:600;margin-bottom:4px;line-height:1.35}
+.sign span{font-size:14.5px;color:var(--muted);line-height:1.45;display:block}
+@media (max-width:980px){.signs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){.signs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Çipler, kaydırıcılar */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--tile);border-radius:999px;padding:10px 16px;font-size:15px;transition:background .2s,color .2s,border-color .2s}
+.chip:hover{border-color:var(--accent)}
+.chip.on{background:var(--accent);color:var(--ink);border-color:transparent;font-weight:600}
+.desc{margin-top:22px;padding:20px 22px;border-radius:18px;border:1px solid var(--line);min-height:110px}
+.desc b{display:block;font-size:19px;font-weight:600;margin-bottom:6px}
+.desc p{color:var(--muted);text-wrap:pretty}
+.ctl{display:flex;align-items:center;gap:14px;margin-top:20px}
+.ctl label{width:88px;flex:none;color:var(--muted);font-size:15px}
+.ctl input[type=range]{flex:1;accent-color:var(--accent);min-width:0;height:30px}
+.cols{display:flex;gap:12px}
+input[type=color]{-webkit-appearance:none;appearance:none;width:44px;height:44px;border:2px solid var(--line);border-radius:50%;padding:0;background:none;cursor:pointer;overflow:hidden}
+input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+input[type=color]::-webkit-color-swatch{border:none;border-radius:50%}
+input[type=color]::-moz-color-swatch{border:none;border-radius:50%}
+[hidden]{display:none!important}
+
+/* Panel */
+.addr{border:1.5px solid var(--accent);border-radius:24px;padding:28px;background:var(--tile)}
+.addr .url{font-size:clamp(30px,5vw,46px);font-weight:500;letter-spacing:-.01em;margin:4px 0 8px;word-break:break-word}
+.addr small{color:var(--muted);font-size:14px}
+.addr p{color:var(--muted)}
+.tips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.tip{border:1px solid var(--line);border-radius:20px;padding:20px;background:var(--tile)}
+.tip b{display:block;font-weight:600;margin-bottom:4px}
+.tip p{color:var(--muted);font-size:15px}
+@media (max-width:620px){.tips{grid-template-columns:minmax(0,1fr)}}
+
+/* Birlikte */
+.rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:26px}
+.room{border:1px solid var(--line);background:var(--tile);border-radius:24px;padding:20px;transition:border-color .3s,background-color 1.4s}
+.room.synced{border-color:var(--accent)}
+.room canvas{max-width:190px;margin:0 auto 12px}
+.room-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.room-row b{font-weight:600}
+.room small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+.sw{-webkit-appearance:none;appearance:none;width:46px;height:28px;border-radius:14px;background:var(--line);position:relative;flex:none;transition:background .25s;border:none;cursor:pointer}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--muted);transition:left .25s,background .25s}
+.sw:checked{background:var(--accent)}.sw:checked::after{left:21px;background:var(--ink)}
+.link-line{height:2px;margin:18px 0 0;border-radius:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.room.synced .link-line{opacity:.8}
+@media (max-width:760px){.rooms{grid-template-columns:minmax(0,1fr)}}
+
+/* SSS */
+.faq{max-width:760px}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 2px;font-weight:600;font-size:17px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";width:12px;height:12px;flex:none;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-3px,-3px);transition:transform .25s}
+details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+details p{padding:0 2px 22px;color:var(--muted);max-width:60ch}
+
+footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}body,.stage,.sign{transition:none}}
+</style>
+</head>
+<body data-phase="gun">
+<div class="sky" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Biolight, başa dön">
+      <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="38" fill="none" stroke="var(--accent)" stroke-width="7"/><circle cx="50" cy="50" r="27" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="4 6" opacity=".6"/><circle cx="50" cy="50" r="15" fill="var(--accent)"/></svg>
+      <b>BIOLIGHT</b>
+    </a>
+    <nav class="nav" aria-label="Bölümler">
+      <a href="#kurulum">Kurulum</a><a href="#isik-dili">Işığın dili</a><a href="#gokyuzu">Gökyüzü</a><a href="#modlar">Modlar</a><a href="#panel">Panel</a><a href="#birlikte">Birden fazla ışık</a><a href="#yardim">Yardım</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <section class="hero">
+    <div>
+      <h1>Işığın, günün ritmini izler.</h1>
+      <p class="lede">Biolight şehrinin gün doğumunu, gün batımını ve havasını takip eder. Güneşi kaydır, bir günün halkada nasıl aktığını izle.</p>
+      <div class="scrub">
+        <div class="scrub-top">
+          <span class="time" id="hTime">12:00</span><span class="phase" id="hPhase">Gün</span>
+          <button class="play" id="hPlay" aria-pressed="false"><svg id="playIco" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg><span id="playTxt">Bir günü oynat</span></button>
+        </div>
+        <div class="track"><div class="band"></div><input type="range" id="hMin" min="0" max="1439" step="1" value="720" aria-label="Günün saati"></div>
+        <div class="tlabels"><span>00:00</span><span style="left:28.6%">Doğuş 06:52</span><span style="left:76.9%">Batış 18:28</span><span>24:00</span></div>
+        <p class="note">Örnek saatler İstanbul'un ekim ayına göre. Biolight kendi şehrinin saatlerini kullanır.</p>
+      </div>
+    </div>
+    <div class="hero-ring"><div class="halo" id="halo"></div><canvas class="ring" id="ringHero" role="img" aria-label="Biolight halkasının canlı canlandırması"></canvas></div>
+  </section>
+
+  <section class="sec" id="kurulum">
+    <div class="sec-head">
+      <h2>Bir dakikada kurulum</h2>
+      <p>Kurulum telefonunun tarayıcısında yapılır; uygulama indirmen gerekmez. Bir adıma dokun, halkanın o anda ne göstereceğini gör.</p>
+    </div>
+    <div class="split">
+      <ol class="steps" id="steps"></ol>
+      <div class="stage">
+        <div class="ringbox"><canvas class="ring" id="ringSetup" role="img" aria-label="Kurulum adımında halkanın görünümü"></canvas></div>
+        <p class="cap" id="setupCap"></p>
+        <div class="stage-nav"><button class="btn ghost" id="prevStep">Önceki</button><button class="btn" id="nextStep">Sonraki adım</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="isik-dili">
+    <div class="sec-head">
+      <h2>Halka sana ne söylüyor?</h2>
+      <p>Kurulum ve bağlantı sırasında Biolight durumunu halkadaki ışıkla anlatır. Bu beş işareti tanıman yeterli.</p>
+    </div>
+    <div class="signs" id="signs"></div>
+  </section>
+
+  <section class="sec" id="gokyuzu">
+    <div class="split">
+      <div>
+        <div class="sec-head" style="margin-bottom:26px">
+          <h2>Penceredeki gökyüzü, odanda.</h2>
+          <p>Sirkadiyen modda halka şehrindeki havayı yansıtır. Hava 10 dakikada bir güncellenir. Bir gökyüzü seç ve rüzgârı değiştir.</p>
+        </div>
+        <div class="chips" id="wxChips" role="group" aria-label="Gökyüzü efektleri"></div>
+        <div class="desc" id="wxDesc"></div>
+        <div class="ctl"><label for="wind">Rüzgâr</label><input type="range" id="wind" min="0" max="16" value="4"><span id="windV" style="width:64px;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)">4 m/sn</span></div>
+      </div>
+      <div class="stage"><div class="ringbox"><canvas class="ring" id="ringWx" role="img" aria-label="Seçilen gökyüzü efektinin canlandırması"></canvas></div><p class="cap">Gece sakin havalarda halka mum ışığına geçer; yağmur, sağanak ve kar gece de loşça görünür.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="modlar">
+    <div class="split">
+      <div>
+        <div class="sec-head" style="margin-bottom:26px">
+          <h2>Her ana bir ışık</h2>
+          <p>Sirkadiyen modun dışında altı serbest mod var. Renkleri ve hızı panelden kendin ayarlarsın; burada da dene.</p>
+        </div>
+        <div class="chips" id="modeChips" role="group" aria-label="Işık modları"></div>
+        <div class="desc" id="modeDesc"></div>
+        <div class="ctl" id="colRow"><label>Renkler</label><div class="cols"><input type="color" id="c0" value="#ff8c00" aria-label="Renk 1"><input type="color" id="c1" value="#ff2d55" aria-label="Renk 2"><input type="color" id="c2" value="#5e5ce6" aria-label="Renk 3"></div></div>
+        <div class="ctl" id="spdRow"><label for="spd">Hız</label><input type="range" id="spd" min="1" max="10" value="5"></div>
+      </div>
+      <div class="stage"><div class="ringbox"><canvas class="ring" id="ringMode" role="img" aria-label="Seçilen ışık modunun canlandırması"></canvas></div><p class="cap" id="modeCap"></p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="panel">
+    <div class="sec-head">
+      <h2>Işığını telefonundan yönet</h2>
+      <p>Telefonun Biolight ile aynı Wi-Fi ağındayken tarayıcına bu adresi yaz. Modlar, parlaklık, renkler, zamanlama ve konum hep buradadır.</p>
+    </div>
+    <div class="addr">
+      <small>Kontrol paneli</small>
+      <div class="url">biolight.local</div>
+      <p>Açılmazsa kurulumun sonunda gösterilen IP adresini kullan. Bazı Android telefonlar .local adreslerini açamaz.</p>
+    </div>
+    <div class="tips">
+      <div class="tip"><b>Ana ekrana ekle</b><p>iPhone'da Safari'nin Paylaş menüsünden, Android'de tarayıcı menüsünden “Ana ekrana ekle”yi seç. Panel uygulama gibi açılır.</p></div>
+      <div class="tip"><b>Zamanlama</b><p>Belirlediğin saatte ışık seçtiğin moda geçer; örneğin 07:00 Sirkadiyen, 22:30 Mum, 00:30 Kapalı. Kurallar her gün tekrarlanır.</p></div>
+      <div class="tip"><b>Efekt önizleme</b><p>Gökyüzü efektleri bölümünde bir efekte dokun; halka onu 45 saniye boyunca gösterir.</p></div>
+      <div class="tip"><b>Konum</b><p>Şehrini panelden değiştirebilirsin. Yurt dışındaysan ülke kodunu ekle, örneğin Berlin,DE.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="birlikte">
+    <div class="sec-head">
+      <h2>Evindeki tüm ışıklar, birlikte</h2>
+      <p>Her Biolight'a odasının adını ver. “Birlikte çalış” açık olan ışıklar aynı modda, renkte, parlaklıkta ve zamanlamada çalışır. Salon'un modunu değiştir, senkron ışıkların onu nasıl izlediğini gör.</p>
+    </div>
+    <div class="chips" id="syncChips" role="group" aria-label="Salon'un modu"></div>
+    <div class="rooms" id="rooms"></div>
+  </section>
+
+  <section class="sec" id="yardim">
+    <div class="sec-head"><h2>Sorun mu var?</h2><p>En sık karşılaşılan durumlar ve çözümleri.</p></div>
+    <div class="faq">
+      <details><summary>LAVA_Setup ağını göremiyorum</summary><p>Biolight kayıtlı Wi-Fi ağına bağlanmış olabilir. Yeniden kurmak için cihazdaki BOOT düğmesine 5 saniye basılı tut; halka kızıl renkle dolar ve kurulum ağı açılır.</p></details>
+      <details><summary>Ev ağım listede görünmüyor</summary><p>Biolight yalnızca 2.4 GHz ağlara bağlanır; adında “5G” geçen ağlar listede çıkmaz. Biolight'ı modeme yaklaştır ve listeyi yenile.</p></details>
+      <details><summary>Şifremi girdim ama iki kızıl nabız gördüm</summary><p>Bağlantı kurulamadı. Şifreyi büyük-küçük harfe dikkat ederek tekrar gir. Sorun sürerse Biolight'ı modeme yaklaştır.</p></details>
+      <details><summary>biolight.local açılmıyor</summary><p>Telefonunun Biolight ile aynı Wi-Fi ağında olduğunu kontrol et. Açılmazsa kurulumun sonunda gösterilen IP adresini kullan.</p></details>
+      <details><summary>Hava durumu yanlış görünüyor</summary><p>Paneldeki Konum bölümünden şehrini kontrol et. Yurt dışındaysan ülke kodunu ekle, örneğin Berlin,DE.</p></details>
+      <details><summary>Modemimi değiştirdim</summary><p>Panelin Wi-Fi bölümünden ayarları sıfırla ya da BOOT düğmesine 5 saniye basılı tut. Biolight kurulum moduna geçer, yeni ağını seçersin. Işık ayarların silinmez.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>Biolight, bir LAVA. ürünüdür.</span><span>Hava verisi OpenWeather tarafından sağlanır.</span></div>
+</footer>
+
+<script>
+(() => {
+const TAU = Math.PI * 2, N = 12;
+const clamp01 = x => x < 0 ? 0 : x > 1 ? 1 : x;
+const sstep = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const mix = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+const sc = (a, s) => [a[0] * s, a[1] * s, a[2] * s];
+const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+const rgb = (r, g, b) => [r, g, b];
+const wrap = (x, m) => x >= m ? x - m : x;
+const TH = Array.from({length: N}, (_, i) => i * TAU / N), PX = TH.map(Math.cos), PY = TH.map(Math.sin);
+const hex2 = h => [parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255];
+const angDiff = (a, b) => { let d = (a - b + Math.PI) % TAU; if (d < 0) d += TAU; return d - Math.PI; };
+const pad = n => String(n).padStart(2, "0");
+const hm = m => pad(Math.floor(m / 60) % 24) + ":" + pad(Math.floor(m) % 60);
+
+function kelvin(K) {
+  const t = K / 100; let r, g, b;
+  if (t <= 66) { r = 255; g = 99.4708025861 * Math.log(t) - 161.1195681661; b = t <= 19 ? 0 : 138.5177312231 * Math.log(t - 10) - 305.0447927307; }
+  else { r = 329.698727446 * Math.pow(t - 60, -0.1332047592); g = 288.1221695283 * Math.pow(t - 60, -0.0755148492); b = 255; }
+  return [r, g, b].map(v => Math.min(255, Math.max(0, v)) / 255);
+}
+function hash2(x, y) {
+  let h = (Math.imul(x & 255, 374761393) + Math.imul(y & 255, 668265263)) >>> 0;
+  h = Math.imul(h ^ (h >>> 13), 1274126177) >>> 0; h ^= h >>> 16;
+  return (h & 0xffff) / 65535;
+}
+function vnoise(x, y) {
+  const fx = Math.floor(x), fy = Math.floor(y); let u = x - fx, v = y - fy;
+  u = u * u * (3 - 2 * u); v = v * v * (3 - 2 * v);
+  const a = hash2(fx, fy), b = hash2(fx + 1, fy), c = hash2(fx, fy + 1), d = hash2(fx + 1, fy + 1);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+const fbm = (x, y) => 0.65 * vnoise(x, y) + 0.35 * vnoise(x * 2 + 17.3, y * 2 - 9.1);
+function hsv(h, s, v) {
+  h -= Math.floor(h); const i = Math.floor(h * 6), f = h * 6 - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s);
+  return [[v, t, p], [q, v, p], [p, v, t], [p, q, v], [t, p, v], [v, p, q]][i % 6];
+}
+const tri = (a, b, c, p) => { p -= Math.floor(p); const s = p * 3, i = Math.floor(s); let t = s - i; t = t * t * (3 - 2 * t); const A = [a, b, c][i], B = [b, c, a][i]; return mix(A, B, t); };
+
+/* Sirkadiyen hesap: firmware ile aynı */
+const SR = 412, SS = 1108;
+function circ(m) {
+  const dS = SR - 30, dE = SR + 60, kS = SS - 90, nS = SS + 30; let ph, k, lv;
+  if (m < dS || m >= nS) { ph = "gece"; k = 2000; lv = .38; }
+  else if (m < dE) { const t = (m - dS) / (dE - dS); ph = "safak"; k = 2200 + t * 1800; lv = .15 + t * .7; }
+  else if (m < kS) { const t = (m - dE) / (kS - dE), s = Math.sin(Math.PI * t); ph = "gun"; k = 4000 + 2200 * s; lv = .85 + .15 * s; }
+  else { const t = (m - kS) / (nS - kS); ph = "alacakaranlik"; k = 4000 - t * 1800; lv = .85 - t * .7; }
+  return { ph, base: kelvin(k), lv };
+}
+const PHASE_NAME = { gece: "Gece", safak: "Şafak", gun: "Gün", alacakaranlik: "Alacakaranlık" };
+
+/* ---------- Efektler ---------- */
+function newState() {
+  return { aSun: 0, aShim: 0, cx: 0, cy: 0, c2: 0, fog: 0, fogB: 0, rain: 0, ray: 0, hue: 0, flow: 0, fade: 0, breath: 0, sys: 0, t: 0,
+    drop: new Array(N).fill(0), flake: new Array(N).fill(-1), cc: new Array(N).fill(.7), ct: new Array(N).fill(.7), cn: new Array(N).fill(0),
+    L: { active: false, on: false, fl: 0, until: 0, next: 0, ang: 0, inten: 0, glow: 0 } };
+}
+function fill(r, c) { for (let i = 0; i < N; i++) r.tgt[i] = c; }
+
+function fxMum(r, dt, now, lv) {
+  const s = r.s, k = Math.min(1, dt * 12);
+  for (let i = 0; i < N; i++) {
+    if (now >= s.cn[i]) { s.ct[i] = .45 + Math.random() * .55; s.cn[i] = now + 60 + Math.random() * 100; }
+    s.cc[i] += (s.ct[i] - s.cc[i]) * k;
+    r.tgt[i] = sc([1, .30 + .16 * s.cc[i], .02], lv * s.cc[i]);
+  }
+}
+function fxGunes(r, dt, base, lv) {
+  const s = r.s;
+  s.aSun = wrap(s.aSun + dt * TAU / 90, TAU); s.aShim = wrap(s.aShim + dt * .5, 256);
+  const warm = mix(base, [1, .82, .5], .55);
+  for (let i = 0; i < N; i++) {
+    const d = angDiff(TH[i], s.aSun), glow = Math.exp(-(d * d) / 1.1);
+    const sh = 1 + .06 * (vnoise(PX[i] * 1.6 + s.aShim, PY[i] * 1.6) - .5);
+    r.tgt[i] = sc(mix(sc(base, .62), warm, glow), sh * lv);
+  }
+}
+function fxParcali(r, dt, base, lv, center, drift) {
+  const s = r.s;
+  s.aSun = wrap(s.aSun + dt * TAU / 120, TAU); s.cx = wrap(s.cx + dt * drift, 256); s.cy = wrap(s.cy + dt * drift * .35, 256); s.ray = wrap(s.ray + dt * .45, TAU);
+  const cloudAt = (x, y) => sstep(center - .09, center + .09, fbm(x * .95 + s.cx, y * .95 + s.cy));
+  const sunVis = 1 - cloudAt(Math.cos(s.aSun), Math.sin(s.aSun));
+  const rayStr = sstep(.15, .55, sunVis) * (1 - .45 * sstep(.8, 1, sunVis)), roomLv = .62 + .38 * sunVis;
+  const sunC = mix(base, [1, .86, .58], .5), cloudC = sc(mix(base, [.72, .77, .88], .65), .30), rim = [1, .95, .85];
+  for (let i = 0; i < N; i++) {
+    const cl = cloudAt(PX[i], PY[i]); let rm = 1 - Math.abs(cl - .5) * 2; rm *= rm;
+    const d = angDiff(TH[i], s.aSun), glow = Math.exp(-(d * d) / 1.4);
+    const beam = Math.pow(.5 + .5 * Math.cos(4 * d + s.ray), 6) * Math.exp(-(d * d) / 3);
+    let c = mix(sc(sunC, (.7 + .3 * glow) * roomLv), cloudC, cl);
+    c = add(c, sc(rim, .28 * rm * roomLv)); c = add(c, sc(rim, .55 * beam * rayStr * (1 - cl * .7)));
+    r.tgt[i] = sc(c, lv);
+  }
+}
+function fxBulutlu(r, dt, base, lv, dark, drift) {
+  const s = r.s;
+  s.cx = wrap(s.cx + dt * drift * .8, 256); s.cy = wrap(s.cy + dt * drift * .3, 256); s.c2 = wrap(s.c2 + dt * drift * 1.5, 256);
+  const sky = mix(base, [.8, .84, .92], .6);
+  for (let i = 0; i < N; i++) {
+    const n = fbm(PX[i] * .9 + s.cx, PY[i] * .9 + s.cy), n2 = vnoise(PX[i] * 1.8 + s.c2, PY[i] * 1.8 + 40);
+    let b = .3 + .55 * sstep(.2, .8, n) - .12 * n2; if (dark) b *= .7;
+    r.tgt[i] = sc(sky, lv * Math.max(b, .08));
+  }
+}
+function fxSis(r, dt, base, lv) {
+  const s = r.s; s.fog = wrap(s.fog + dt * .035, 256); s.fogB = wrap(s.fogB + dt * TAU / 16, TAU);
+  const fog = mix(base, [.85, .86, .9], .7), br = .5 + .5 * Math.sin(s.fogB);
+  for (let i = 0; i < N; i++) { const n = vnoise(PX[i] * .6 + s.fog, PY[i] * .6 + 13.7); r.tgt[i] = sc(fog, lv * (.4 + .12 * n + .06 * br)); }
+}
+function rainCore(r, dt, base, lv, rate, bgLv) {
+  const s = r.s; s.rain = wrap(s.rain + dt * .25, 256);
+  if (Math.random() < rate * dt) { const i = Math.floor(Math.random() * N), l = (i + N - 1) % N, rr = (i + 1) % N; s.drop[i] = 1; s.drop[l] = Math.max(s.drop[l], .28); s.drop[rr] = Math.max(s.drop[rr], .28); }
+  const k = Math.exp(-dt / .15), bg = mix(base, [.42, .52, .72], .65), dc = [.62, .78, 1];
+  for (let i = 0; i < N; i++) { s.drop[i] *= k; const n = vnoise(PX[i] * 1.2 + s.rain, PY[i] * 1.2); r.tgt[i] = add(sc(bg, lv * bgLv * (.75 + .5 * n)), sc(dc, lv * .95 * s.drop[i])); }
+}
+function fxSaganak(r, dt, now, base, lv) {
+  rainCore(r, dt, base, lv, 13, .2);
+  const L = r.s.L;
+  if (!L.active) {
+    if (!L.next) L.next = now + 900 + Math.random() * 2500;
+    if (now >= L.next) { L.active = true; L.fl = 2 + Math.floor(Math.random() * 3); L.on = true; L.inten = 1; L.ang = Math.random() * TAU; L.until = now + 25 + Math.random() * 45; }
+  } else if (now >= L.until) {
+    if (L.on) { L.on = false; if (--L.fl <= 0) { L.active = false; L.next = now + 3000 + Math.random() * 6000; } else L.until = now + 50 + Math.random() * 120; }
+    else { L.on = true; L.inten = .45 + Math.random() * .55; L.until = now + 20 + Math.random() * 40; }
+  }
+  if (L.on) L.glow = L.inten; else L.glow *= Math.exp(-dt / .07);
+  if (L.glow > .01) {
+    const fl = [.9, .93, 1], amp = .45 + .55 * lv;
+    for (let i = 0; i < N; i++) { const d = angDiff(TH[i], L.ang); const f = L.glow * amp * (.35 + .65 * Math.exp(-(d * d) / .9)); r.tgt[i] = mix(r.tgt[i], fl, clamp01(f)); }
+  }
+}
+function fxKar(r, dt, base, lv) {
+  const s = r.s;
+  if (Math.random() < 2.2 * dt) { const i = Math.floor(Math.random() * N); if (s.flake[i] < 0) s.flake[i] = 0; }
+  const bg = mix(base, [.78, .85, 1], .6);
+  for (let i = 0; i < N; i++) {
+    let v = 0;
+    if (s.flake[i] >= 0) { s.flake[i] += dt / 1.8; if (s.flake[i] >= 1) s.flake[i] = -1; else v = Math.sin(Math.PI * Math.sqrt(s.flake[i])); }
+    r.tgt[i] = add(sc(bg, lv * .3), sc([1, 1, 1], lv * .7 * v));
+  }
+}
+const WX_ID = { gunes: 800, parcali: 802, bulutlu: 804, sis: 741, yagmur: 501, saganak: 211, kar: 601 };
+function runWeather(r, dt, now, cat, base, lv, wind) {
+  const drift = .05 + Math.min(20, Math.max(0, wind)) * .012;
+  switch (cat) {
+    case "gunes": fxGunes(r, dt, base, lv); break;
+    case "parcali": fxParcali(r, dt, base, lv, .5, drift); break;
+    case "bulutlu": fxBulutlu(r, dt, base, lv, true, drift); break;
+    case "sis": fxSis(r, dt, base, lv); break;
+    case "yagmur": rainCore(r, dt, base, lv, 8, .32); break;
+    case "saganak": fxSaganak(r, dt, now, base, lv); break;
+    case "kar": fxKar(r, dt, base, lv); break;
+  }
+}
+
+const FX = {
+  off(r) { fill(r, [0, 0, 0]); },
+  circ(r, dt, now) {
+    const c = circ(r.p.minute ?? 720);
+    if (c.ph === "gece") fxMum(r, dt, now, c.lv); else fill(r, sc(c.base, c.lv));
+  },
+  wx(r, dt, now) { runWeather(r, dt, now, r.p.cat, kelvin(5000), .9, r.p.wind ?? 4); },
+  setup(r, dt) { const s = r.s; s.sys = wrap(s.sys + dt * TAU / 3.5, TAU); fill(r, sc([1, .42, .06], .18 + .32 * (.5 - .5 * Math.cos(s.sys)))); },
+  connecting(r, dt) {
+    const s = r.s; s.sys = wrap(s.sys + dt * TAU / 1.3, TAU);
+    for (let i = 0; i < N; i++) { let d = s.sys - TH[i]; if (d < 0) d += TAU; r.tgt[i] = sc([1, .55, .16], .06 + .9 * Math.exp(-d * 1.6)); }
+  },
+  ok(r, dt) {
+    const s = r.s; s.t += dt; const loop = r.p.loop ? s.t % 4.2 : s.t; const p = loop / 1.8, w = kelvin(3600);
+    for (let i = 0; i < N; i++) { const k = Math.min(i, N - i); r.tgt[i] = sc(w, .85 * clamp01(p * 7 - k) * (r.p.loop && loop > 3.6 ? clamp01((4.2 - loop) / .6) : 1)); }
+  },
+  fail(r, dt) {
+    const s = r.s; s.t = (s.t + dt) % 2.6; const e = s.t * 1000;
+    const v = e < 1200 ? Math.pow(.5 - .5 * Math.cos(e / 600 * TAU), 2) : 0;
+    fill(r, sc([1, .18, .04], (r.p.dimBase ? .15 : .1) + .75 * v));
+  },
+  reset(r, dt) {
+    const s = r.s; s.t = (s.t + dt) % 5.4; const n = clamp01(s.t / 4.2) * N;
+    for (let i = 0; i < N; i++) r.tgt[i] = sc([1, .25, .05], clamp01(n - i) * (s.t > 4.6 ? clamp01((5.4 - s.t) / .8) : 1));
+  },
+  mum(r, dt, now) { fxMum(r, dt, now, 1); },
+  sabit(r) { fill(r, hex2(r.p.c[0])); },
+  gokkusagi(r, dt) { const s = r.s, sp = .15 + ((r.p.spd ?? 5) - 1) * .2; s.hue = wrap(s.hue + dt * sp * .08, 1); for (let i = 0; i < N; i++) r.tgt[i] = hsv(s.hue + i / N, 1, 1); },
+  akis(r, dt) { const s = r.s, sp = .15 + ((r.p.spd ?? 5) - 1) * .2, c = r.p.c.map(hex2); s.flow = wrap(s.flow + dt * sp * .05, 1); for (let i = 0; i < N; i++) r.tgt[i] = tri(c[0], c[1], c[2], s.flow + i / N); },
+  gecis(r, dt) { const s = r.s, sp = .15 + ((r.p.spd ?? 5) - 1) * .2, c = r.p.c.map(hex2); s.fade = wrap(s.fade + dt * sp * .035, 1); fill(r, tri(c[0], c[1], c[2], s.fade)); },
+  nefes(r, dt) { const s = r.s, sp = .15 + ((r.p.spd ?? 5) - 1) * .2; s.breath = wrap(s.breath + dt * sp * .9, TAU); fill(r, sc(hex2(r.p.c[0]), .12 + .88 * (.5 - .5 * Math.cos(s.breath)))); }
+};
+
+/* ---------- Halka çizimi ---------- */
+const RINGS = [];
+class Ring {
+  constructor(cv, opt = {}) {
+    this.cv = cv; this.ctx = cv.getContext("2d"); this.halo = opt.halo || null;
+    this.out = Array.from({length: N}, () => [0, 0, 0]); this.tgt = this.out.map(c => c.slice()); this.from = this.out.map(c => c.slice());
+    this.fadeT = 1; this.eff = "off"; this.p = {}; this.s = newState(); this.visible = true; this.px = 0;
+    RINGS.push(this); io.observe(cv);
+  }
+  set(eff, p = {}, restart = false) {
+    this.p = Object.assign({}, this.p, p);
+    if (eff !== this.eff || restart) { this.from = this.out.map(c => c.slice()); this.fadeT = 0; this.eff = eff; this.s.t = 0; this.s.sys = 0; }
+  }
+  step(dt, now) {
+    FX[this.eff](this, dt, now);
+    this.fadeT = Math.min(1, this.fadeT + dt / .7); const f = this.fadeT * this.fadeT * (3 - 2 * this.fadeT);
+    for (let i = 0; i < N; i++) this.out[i] = mix(this.from[i], this.tgt[i], f).map(clamp01);
+  }
+  draw() {
+    const cv = this.cv, dpr = Math.min(2, window.devicePixelRatio || 1), w = cv.clientWidth;
+    if (!w) return;
+    if (this.px !== Math.round(w * dpr)) { this.px = Math.round(w * dpr); cv.width = cv.height = this.px; }
+    const ctx = this.ctx, W = this.px, c0 = W / 2, R = W * .36, band = W * .075;
+    ctx.clearRect(0, 0, W, W);
+    let avg = [0, 0, 0]; for (const c of this.out) avg = add(avg, c); avg = sc(avg, 1 / N);
+    const am = Math.max(...avg);
+    // Duvara düşen ışık
+    if (am > .004) {
+      const n = avg.map(v => Math.round(v / am * 255));
+      const g = ctx.createRadialGradient(c0, c0, R * .2, c0, c0, W * .5);
+      g.addColorStop(0, `rgba(${n},${.32 * am})`); g.addColorStop(.6, `rgba(${n},${.12 * am})`); g.addColorStop(1, `rgba(${n},0)`);
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, W);
+    }
+    // LED parıltısı duvara düşer (gövdenin arkasında)
+    ctx.globalCompositeOperation = "lighter";
+    for (let i = 0; i < N; i++) {
+      const c = this.out[i], m = Math.max(c[0], c[1], c[2]); if (m < .004) continue;
+      const a = TH[i] - Math.PI / 2, x = c0 + R * Math.cos(a), y = c0 + R * Math.sin(a), n = c.map(v => Math.round(v / m * 255));
+      const g = ctx.createRadialGradient(x, y, 0, x, y, W * .2);
+      g.addColorStop(0, `rgba(${n},${.85 * m})`); g.addColorStop(.18, `rgba(${n},${.38 * m})`); g.addColorStop(1, `rgba(${n},0)`);
+      ctx.fillStyle = g; ctx.fillRect(x - W * .2, y - W * .2, W * .4, W * .4);
+    }
+    ctx.globalCompositeOperation = "source-over";
+    // Halka gövdesi
+    ctx.beginPath(); ctx.arc(c0, c0, R + band, 0, TAU); ctx.arc(c0, c0, R - band, 0, TAU, true);
+    ctx.fillStyle = "#17100c"; ctx.fill();
+    ctx.lineWidth = Math.max(1, W * .003); ctx.strokeStyle = "rgba(255,220,190,.1)";
+    ctx.beginPath(); ctx.arc(c0, c0, R + band, 0, TAU); ctx.stroke(); ctx.beginPath(); ctx.arc(c0, c0, R - band, 0, TAU); ctx.stroke();
+    // LED'in gövde üzerindeki yakın ışıması
+    ctx.globalCompositeOperation = "lighter";
+    for (let i = 0; i < N; i++) {
+      const c = this.out[i], m = Math.max(c[0], c[1], c[2]); if (m < .004) continue;
+      const a = TH[i] - Math.PI / 2, x = c0 + R * Math.cos(a), y = c0 + R * Math.sin(a), n = c.map(v => Math.round(v / m * 255));
+      const g = ctx.createRadialGradient(x, y, 0, x, y, W * .07);
+      g.addColorStop(0, `rgba(${n},${.55 * m})`); g.addColorStop(1, `rgba(${n},0)`);
+      ctx.fillStyle = g; ctx.fillRect(x - W * .07, y - W * .07, W * .14, W * .14);
+    }
+    ctx.globalCompositeOperation = "source-over";
+    // LED gövdeleri
+    const s = W * .062;
+    for (let i = 0; i < N; i++) {
+      const c = this.out[i], m = Math.max(c[0], c[1], c[2]), a = TH[i] - Math.PI / 2, x = c0 + R * Math.cos(a), y = c0 + R * Math.sin(a);
+      const col = c.map(v => Math.round((.16 + .84 * Math.min(1, v * 1.25 + m * .15)) * 255));
+      ctx.save(); ctx.translate(x, y); ctx.rotate(a);
+      ctx.fillStyle = `rgb(${col})`; ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(-s / 2, -s / 2, s, s, s * .22); else ctx.rect(-s / 2, -s / 2, s, s); ctx.fill();
+      if (m > .05) { ctx.fillStyle = `rgba(255,255,255,${Math.min(.85, m * .7)})`; ctx.beginPath(); ctx.arc(0, 0, s * .2, 0, TAU); ctx.fill(); }
+      ctx.restore();
+    }
+    if (this.halo) {
+      const n = am > .004 ? avg.map(v => Math.round(v / am * 255)) : [0, 0, 0];
+      this.halo.style.setProperty("--glow", n.join(",")); this.halo.style.setProperty("--glow-a", (am * 1.1).toFixed(3));
+    }
+  }
+}
+const io = new IntersectionObserver(es => es.forEach(e => { const r = RINGS.find(x => x.cv === e.target); if (r) r.visible = e.isIntersecting; }), { rootMargin: "120px" });
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(.1, (now - last) / 1000); last = now;
+  if (playing) setMinute((minute + dt * 72) % 1440);
+  for (const r of RINGS) if (r.visible) { r.step(dt, now); r.draw(); }
+  requestAnimationFrame(loop);
+}
+
+/* ---------- Hero: günü kaydır ---------- */
+const $ = s => document.querySelector(s);
+const hero = new Ring($("#ringHero"), { halo: $("#halo") });
+let minute = 720, playing = false, lastPhase = "";
+const THEME = { gece: "#120805", safak: "#1c1222", gun: "#f7f1e6", alacakaranlik: "#1e0d09" };
+function setMinute(m) {
+  minute = m; $("#hMin").value = Math.round(m) % 1440;
+  const c = circ(m);
+  $("#hTime").textContent = hm(m); $("#hPhase").textContent = PHASE_NAME[c.ph];
+  hero.p.minute = m;
+  if (c.ph !== lastPhase) {
+    lastPhase = c.ph; document.body.dataset.phase = c.ph;
+    document.querySelector('meta[name="theme-color"]').content = THEME[c.ph];
+  }
+  if (mode === "sirkadiyen") modeRing.p.minute = m;
+  rooms.forEach(o => { if (o.mode === "sirkadiyen") o.ring.p.minute = m; });
+}
+hero.set("circ", { minute });
+$("#hMin").addEventListener("input", e => { if (playing) togglePlay(); setMinute(+e.target.value); });
+function togglePlay() {
+  playing = !playing; $("#hPlay").setAttribute("aria-pressed", playing);
+  $("#playTxt").textContent = playing ? "Durdur" : "Bir günü oynat";
+  $("#playIco").innerHTML = playing ? '<path d="M4 3h3v10H4zM9 3h3v10H9z" fill="currentColor"/>' : '<path d="M4 2.5v11l9-5.5z" fill="currentColor"/>';
+}
+$("#hPlay").addEventListener("click", togglePlay);
+
+/* ---------- Kurulum ---------- */
+const STEPS = [
+  { t: "Biolight'ı fişe tak", d: "5 V USB-C adaptörle, en az 2 A.", eff: "setup", cap: "<b>Kehribar renkte nefes alıyor.</b> Biolight kurulum bekliyor." },
+  { t: "“LAVA_Setup” ağına bağlan", d: "Kurulum sayfası kendiliğinden açılır. Açılmazsa tarayıcına 192.168.4.1 yaz.", eff: "setup", cap: "<b>Hâlâ nefes alıyor.</b> Telefonun kurulum ağına bağlandı, sayfa açılıyor." },
+  { t: "Evinin Wi-Fi ağını seç", d: "Listeden ağına dokun ve şifresini gir. Biolight 2.4 GHz ağlara bağlanır.", eff: "setup", cap: "<b>Nefes alıyor.</b> Ağ listesi sayfa açılmadan hazırlandı, beklemen gerekmez." },
+  { t: "Şehrini seç", d: "Gün doğumu, gün batımı ve hava bu şehre göre izlenir.", eff: "setup", cap: "<b>Nefes alıyor.</b> Şehir, ışığın gün boyunca nasıl değişeceğini belirler." },
+  { t: "Oda adı ver ve Bağlan'a dokun", d: "Örneğin Salon ya da Yatak odası.", eff: "connecting", next: "ok", cap: "<b>Halkada dönen ışık:</b> ev ağına bağlanıyor. Ardından sıcak beyaz halkayı doldurur." },
+  { t: "“Kurulumu tamamla”ya dokun", d: "Telefonun ev ağına döner, kontrol paneli açılır.", eff: "ok", next: "circ", cap: "<b>Halka gün doğumu gibi doluyor.</b> Biolight hazır ve günün ritmine geçiyor." }
+];
+const setupRing = new Ring($("#ringSetup"));
+let stepIdx = 0, stepTimer = null;
+const stepList = $("#steps");
+STEPS.forEach((s, i) => {
+  const li = document.createElement("li");
+  li.innerHTML = `<button class="step" data-i="${i}"><span class="n">${i + 1}</span><span><b>${s.t}</b><span>${s.d}</span></span></button>`;
+  li.firstChild.addEventListener("click", () => goStep(i));
+  stepList.appendChild(li);
+});
+function goStep(i) {
+  stepIdx = Math.max(0, Math.min(STEPS.length - 1, i)); const s = STEPS[stepIdx];
+  document.querySelectorAll(".step").forEach((b, j) => { b.classList.toggle("on", j === stepIdx); b.setAttribute("aria-current", j === stepIdx ? "step" : "false"); });
+  $("#setupCap").innerHTML = s.cap;
+  clearTimeout(stepTimer);
+  setupRing.set(s.eff, { minute }, true);
+  if (s.next) stepTimer = setTimeout(() => setupRing.set(s.next, { minute }, true), s.eff === "connecting" ? 3000 : 2600);
+  $("#prevStep").disabled = stepIdx === 0;
+  $("#nextStep").textContent = stepIdx === STEPS.length - 1 ? "Baştan izle" : "Sonraki adım";
+}
+$("#prevStep").addEventListener("click", () => goStep(stepIdx - 1));
+$("#nextStep").addEventListener("click", () => goStep(stepIdx === STEPS.length - 1 ? 0 : stepIdx + 1));
+goStep(0);
+
+/* ---------- Işığın dili ---------- */
+const SIGNS = [
+  ["setup", "Kehribar, yavaşça nefes", "Kurulum bekleniyor."],
+  ["connecting", "Halkada dönen ışık", "Wi-Fi ağına bağlanıyor."],
+  ["ok", "Dolan sıcak beyaz", "Bağlandı, Biolight hazır."],
+  ["fail", "İki kızıl nabız", "Bağlantı olmadı. Şifreyi kontrol et."],
+  ["reset", "Kızıl dolan halka", "BOOT basılı, Wi-Fi sıfırlanıyor."]
+];
+SIGNS.forEach(([eff, t, d]) => {
+  const card = document.createElement("div"); card.className = "sign";
+  card.innerHTML = `<canvas class="ring" role="img" aria-label="${t}"></canvas><b>${t}</b><span>${d}</span>`;
+  $("#signs").appendChild(card);
+  new Ring(card.querySelector("canvas")).set(eff, { loop: true, dimBase: true });
+});
+
+/* ---------- Gökyüzü ---------- */
+const WX = [
+  ["gunes", "Güneşli", "Halkada 90 saniyede bir tur atan sıcak bir parıltı dolaşır. Işık gün boyu ferah kalır."],
+  ["parcali", "Parçalı bulutlu", "Gökyüzünün yarısı bulut, yarısı güneş. Bulutların kenarları parlar, aralarından ışık hüzmeleri süzülür. Güneş bir bulutun arkasına girince oda hafifçe kararır."],
+  ["bulutlu", "Bulutlu", "İki katman bulut farklı hızlarda halkanın üzerinden geçer. Rüzgâr arttıkça bulutlar hızlanır."],
+  ["sis", "Sisli", "Düşük kontrastlı, sütümsü bir perde çok yavaş dalgalanır."],
+  ["yagmur", "Yağmur", "Serin bir zemine rastgele damlalar düşer ve yanındaki ışıklara sıçrar."],
+  ["saganak", "Sağanak ve şimşek", "Yoğun yağmurun üzerinde bir noktadan doğan şimşekler halkaya yayılıp söner."],
+  ["kar", "Kar", "Kar taneleri halkada yavaşça belirip kaybolur."]
+];
+const wxRing = new Ring($("#ringWx"));
+let wxCat = "parcali";
+WX.forEach(([k, n]) => {
+  const b = document.createElement("button"); b.className = "chip"; b.textContent = n; b.dataset.k = k;
+  b.addEventListener("click", () => setWx(k)); $("#wxChips").appendChild(b);
+});
+function setWx(k) {
+  wxCat = k; const w = WX.find(x => x[0] === k);
+  document.querySelectorAll("#wxChips .chip").forEach(b => { b.classList.toggle("on", b.dataset.k === k); b.setAttribute("aria-pressed", b.dataset.k === k); });
+  $("#wxDesc").innerHTML = `<b>${w[1]}</b><p>${w[2]}</p>`;
+  wxRing.s = newState(); wxRing.set("wx", { cat: k, wind: +$("#wind").value }, true);
+}
+$("#wind").addEventListener("input", e => { wxRing.p.wind = +e.target.value; $("#windV").textContent = e.target.value + " m/sn"; });
+setWx("parcali");
+
+/* ---------- Modlar ---------- */
+const MODES = [
+  ["sirkadiyen", "Sirkadiyen", "Gün ışığının ritmini izler. Şafakta sıcak ve loş başlar, öğlen en ferah beyaza çıkar, akşam ısınır, gece mum ışığına döner. Şu an yukarıdaki günün saatine göre gösteriliyor.", 0, false],
+  ["mum", "Mum", "Her LED kendi alevi gibi bağımsız titrer. Akşamlar ve sakin anlar için.", 0, false],
+  ["sabit", "Sabit renk", "Seçtiğin tek bir renk, kıpırtısız.", 1, false],
+  ["gokkusagi", "Gökkuşağı", "Renk tekerleğinin tamamı halkada döner.", 0, true],
+  ["akis", "Renk akışı", "Seçtiğin üç renk halkanın çevresinde akar.", 3, true],
+  ["gecis", "Renk geçişi", "Bütün halka seçtiğin üç renk arasında yumuşakça gezinir.", 3, true],
+  ["nefes", "Nefes", "Seçtiğin renk yavaşça parlayıp söner.", 1, true]
+];
+const modeRing = new Ring($("#ringMode"));
+let mode = "mum";
+const colors = () => [$("#c0").value, $("#c1").value, $("#c2").value];
+MODES.forEach(([k, n]) => {
+  const b = document.createElement("button"); b.className = "chip"; b.textContent = n; b.dataset.k = k;
+  b.addEventListener("click", () => setMode(k)); $("#modeChips").appendChild(b);
+});
+function setMode(k) {
+  mode = k; const m = MODES.find(x => x[0] === k);
+  document.querySelectorAll("#modeChips .chip").forEach(b => { b.classList.toggle("on", b.dataset.k === k); b.setAttribute("aria-pressed", b.dataset.k === k); });
+  $("#modeDesc").innerHTML = `<b>${m[1]}</b><p>${m[2]}</p>`;
+  $("#colRow").hidden = !m[3]; ["#c0", "#c1", "#c2"].forEach((id, i) => $(id).hidden = i >= m[3]); $("#spdRow").hidden = !m[4];
+  $("#modeCap").textContent = k === "sirkadiyen" ? `${hm(minute)}, ${PHASE_NAME[circ(minute).ph]}` : "Panelde aynı ayarları bulursun.";
+  modeRing.set(k === "sirkadiyen" ? "circ" : k, { c: colors(), spd: +$("#spd").value, minute });
+}
+["#c0", "#c1", "#c2"].forEach(id => $(id).addEventListener("input", () => { modeRing.p.c = colors(); }));
+$("#spd").addEventListener("input", e => { modeRing.p.spd = +e.target.value; });
+setMode("mum");
+
+/* ---------- Birlikte çalış ---------- */
+const SYNC_MODES = [["sirkadiyen", "Sirkadiyen"], ["mum", "Mum"], ["gokkusagi", "Gökkuşağı"], ["akis", "Renk akışı"], ["nefes", "Nefes"]];
+const PALETTE = { akis: ["#ff8c00", "#ff2d55", "#5e5ce6"], nefes: ["#ff6a2a", "#ff6a2a", "#ff6a2a"], sabit: ["#3a7bff", "#3a7bff", "#3a7bff"] };
+const rooms = [
+  { name: "Salon", sync: true, mode: "mum" },
+  { name: "Yatak odası", sync: true, mode: "mum" },
+  { name: "Çalışma odası", sync: false, mode: "sabit" }
+];
+function applyRoom(o, k) {
+  o.mode = k;
+  o.ring.set(k === "sirkadiyen" ? "circ" : k, { c: PALETTE[k] || PALETTE.akis, spd: 4, minute });
+  o.el.querySelector("small").textContent = o.sync ? "Birlikte çalışıyor" : "Bağımsız";
+}
+rooms.forEach((o, i) => {
+  const el = document.createElement("div"); el.className = "room" + (o.sync ? " synced" : "");
+  el.innerHTML = `<canvas class="ring" role="img" aria-label="${o.name} ışığı"></canvas><div class="room-row"><div><b>${o.name}</b><small></small></div><input type="checkbox" class="sw" aria-label="${o.name}: birlikte çalış" ${o.sync ? "checked" : ""}></div><div class="link-line"></div>`;
+  $("#rooms").appendChild(el); o.el = el; o.ring = new Ring(el.querySelector("canvas"));
+  applyRoom(o, o.mode);
+  el.querySelector(".sw").addEventListener("change", e => {
+    o.sync = e.target.checked; el.classList.toggle("synced", o.sync);
+    const lead = rooms.find(r => r.sync && r !== o);
+    if (o.sync && lead) setTimeout(() => applyRoom(o, lead.mode), 350); else applyRoom(o, o.mode);
+  });
+});
+SYNC_MODES.forEach(([k, n]) => {
+  const b = document.createElement("button"); b.className = "chip"; b.textContent = "Salon: " + n; b.dataset.k = k;
+  b.addEventListener("click", () => {
+    document.querySelectorAll("#syncChips .chip").forEach(x => x.classList.toggle("on", x === b));
+    const salon = rooms[0]; applyRoom(salon, k);
+    if (salon.sync) rooms.slice(1).forEach((o, j) => { if (o.sync) setTimeout(() => applyRoom(o, k), 320 * (j + 1)); });
+  });
+  $("#syncChips").appendChild(b);
+});
+document.querySelector('#syncChips .chip[data-k="mum"]').classList.add("on");
+
+/* Başlangıç: gerçek saat */
+const d = new Date(); setMinute(d.getHours() * 60 + d.getMinutes());
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
