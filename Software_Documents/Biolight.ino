@@ -39,7 +39,7 @@
 #define PREVIEW_MS     45000UL // Efekt önizleme süresi
 
 // ---------------- API ----------------
-const char* OWM_API_KEY = "eed70ef2a016d09301a69256702f7863";
+const char* OWM_API_KEY = "WRITE YOUR API KEY";
 const unsigned long WEATHER_INTERVAL = 10UL * 60UL * 1000UL;
 const unsigned long WEATHER_RETRY    = 60UL * 1000UL;
 
